@@ -14,9 +14,13 @@
 #define SGP30_OFFLINE_TIMEOUT_TICKS      500U  /* 5s */
 #define SGP30_WARMUP_SECONDS             15U
 #define BLE_BAUDRATE                     9600U
+#define BLE_RX_FIFO_SIZE                 128U
 #define BLE_RX_LINE_MAX                  96U
 #define BLE_TX_BUF_MAX                   196U
 #define BLE_LOG_MAX                      20U
+#define SYN6288_BAUDRATE                 9600U
+#define VOICE_COOLDOWN_TICKS             300U  /* 3s between TTS frames */
+#define VOICE_QUEUE_SIZE                 8U
 
 #define SGP30_I2C_PORT                   GPIOB
 #define SGP30_I2C_SCL_PIN                GPIO_Pin_10
@@ -40,7 +44,7 @@
 
 #define EVENT_QUEUE_SIZE                 12U
 
-#define BEEP_ACTIVE_LOW                  1U
+#define BEEP_ACTIVE_LOW                  0U
 #define RELAY_ACTIVE_LOW                 1U
 #define DUST_LED_ACTIVE_LOW              1U
 
@@ -193,6 +197,10 @@ extern AvgFilter_t g_filter_hum_dht;
 
 extern char g_ble_rx_line[BLE_RX_LINE_MAX];
 extern uint8_t g_ble_rx_idx;
+extern volatile uint8_t g_ble_rx_fifo[BLE_RX_FIFO_SIZE];
+extern volatile uint8_t g_ble_rx_head;
+extern volatile uint8_t g_ble_rx_tail;
+extern volatile uint8_t g_ble_rx_overflow;
 extern uint8_t g_alarm_prev;
 extern AlarmLog_t g_alarm_log[BLE_LOG_MAX];
 extern uint8_t g_alarm_log_head;

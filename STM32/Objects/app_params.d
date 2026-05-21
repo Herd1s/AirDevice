@@ -2,7 +2,7 @@
 .\objects\app_params.o: User\app.h
 .\objects\app_params.o: .\Start\stm32f10x.h
 .\objects\app_params.o: .\Start\core_cm3.h
-.\objects\app_params.o: E:\Software\Keil\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\app_params.o: E:\Software\Keil\MDK5_38a\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\app_params.o: .\Start\system_stm32f10x.h
 .\objects\app_params.o: .\User\stm32f10x_conf.h
 .\objects\app_params.o: .\Library\stm32f10x_adc.h
@@ -30,5 +30,5 @@
 .\objects\app_params.o: .\Library\stm32f10x_wwdg.h
 .\objects\app_params.o: .\Library\misc.h
 .\objects\app_params.o: User\app_modules.h
-.\objects\app_params.o: E:\Software\Keil\MDK\ARM\ARMCC\Bin\..\include\string.h
-.\objects\app_params.o: E:\Software\Keil\MDK\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\app_params.o: E:\Software\Keil\MDK5_38a\ARM\ARMCC\Bin\..\include\string.h
+.\objects\app_params.o: E:\Software\Keil\MDK5_38a\ARM\ARMCC\Bin\..\include\stddef.h

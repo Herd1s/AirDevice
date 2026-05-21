@@ -33,6 +33,7 @@
 ".\objects\app_sensor.o"
 ".\objects\app_ui.o"
 ".\objects\app_control.o"
+".\objects\app_voice.o"
 ".\objects\app_ble.o"
 ".\objects\stm32f10x_it.o"
 --strict --scatter ".\Objects\Project.sct"

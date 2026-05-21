@@ -13,6 +13,9 @@
             "ios" : {
                 "dSYMs" : false
             }
+        },
+        "modules" : {
+            "Bluetooth" : {}
         }
     }
 }

@@ -23,6 +23,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
+#include "app.h"
+#include "app_modules.h"
 
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
@@ -151,6 +153,17 @@ void SysTick_Handler(void)
 /*void PPP_IRQHandler(void)
 {
 }*/
+
+void USART2_IRQHandler(void)
+{
+  uint8_t c;
+
+  if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
+  {
+    c = (uint8_t)USART_ReceiveData(USART2);
+    BLE_RxPush(c);
+  }
+}
 
 /**
   * @}

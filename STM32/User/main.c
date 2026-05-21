@@ -47,6 +47,10 @@ AvgFilter_t g_filter_hum_dht;
 
 char g_ble_rx_line[BLE_RX_LINE_MAX];
 uint8_t g_ble_rx_idx = 0;
+volatile uint8_t g_ble_rx_fifo[BLE_RX_FIFO_SIZE];
+volatile uint8_t g_ble_rx_head = 0;
+volatile uint8_t g_ble_rx_tail = 0;
+volatile uint8_t g_ble_rx_overflow = 0;
 uint8_t g_alarm_prev = 0;
 AlarmLog_t g_alarm_log[BLE_LOG_MAX];
 uint8_t g_alarm_log_head = 0;
@@ -74,6 +78,7 @@ int main(void)
     ADC_Config();
     USART1_Config();
     USART2_BLE_Config();
+    Voice_Init();
     OLED_Init();
     OLED_Clear();
     g_air_data.module_online = SGP30_Init();
@@ -89,6 +94,7 @@ int main(void)
     OLED_ShowString(3, 1, "K1 Page/Setting");
     OLED_ShowString(4, 1, "K4 Mode/Mute");
     Delay_ms(1200);
+    Voice_SpeakBoot();
     OLED_Clear();
     g_alarm_prev = g_alarm_active;
     BLE_SendString("$BOOT,AirDevice,JDY23,READY\r\n");
@@ -144,6 +150,7 @@ int main(void)
         }
 
         Control_Task10ms();
+        Voice_Task10ms();
         Delay_ms(APP_LOOP_MS);
         ticks++;
     }

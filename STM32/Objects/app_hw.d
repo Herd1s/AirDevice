@@ -2,7 +2,7 @@
 .\objects\app_hw.o: User\app.h
 .\objects\app_hw.o: .\Start\stm32f10x.h
 .\objects\app_hw.o: .\Start\core_cm3.h
-.\objects\app_hw.o: E:\Software\Keil\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\app_hw.o: E:\Software\Keil\MDK5_38a\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\app_hw.o: .\Start\system_stm32f10x.h
 .\objects\app_hw.o: .\User\stm32f10x_conf.h
 .\objects\app_hw.o: .\Library\stm32f10x_adc.h

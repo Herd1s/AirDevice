@@ -155,6 +155,8 @@ static void BLE_ProcessLine(char *line)
     char *arg1;
     char *arg2;
     uint16_t value;
+    uint8_t report_config;
+    uint8_t report_data;
 
     cmd = strtok(line, ",");
     if (cmd == 0)
@@ -225,6 +227,7 @@ static void BLE_ProcessLine(char *line)
     {
         if (App_SaveParams())
         {
+            Voice_NotifyParamsSaved();
             BLE_SendString("$ACK,SAVE,OK\r\n");
         }
         else
@@ -236,6 +239,8 @@ static void BLE_ProcessLine(char *line)
 
     if (strcmp(cmd, "SET") == 0)
     {
+        report_config = 1U;
+        report_data = 0U;
         arg1 = strtok(0, ",");
         arg2 = strtok(0, ",");
         if (arg1 == 0 || arg2 == 0)
@@ -250,11 +255,13 @@ static void BLE_ProcessLine(char *line)
             {
                 g_fan_mode = FAN_MODE_AUTO;
                 g_manual_fan_on = 0U;
+                BLE_ReportData();
                 BLE_SendString("$ACK,SET,OK\r\n");
             }
             else if (strcmp(arg2, "MAN") == 0)
             {
                 g_fan_mode = FAN_MODE_MANUAL;
+                BLE_ReportData();
                 BLE_SendString("$ACK,SET,OK\r\n");
             }
             else
@@ -317,16 +324,17 @@ static void BLE_ProcessLine(char *line)
         }
         else if (strcmp(arg1, "FAN") == 0)
         {
-            if (g_fan_mode != FAN_MODE_MANUAL)
-            {
-                BLE_SendString("$ACK,SET,ERR,MODE\r\n");
-                return;
-            }
+            g_fan_mode = FAN_MODE_MANUAL;
             g_manual_fan_on = (value != 0U) ? 1U : 0U;
+            g_fan_on = g_manual_fan_on;
+            report_config = 0U;
+            report_data = 1U;
         }
         else if (strcmp(arg1, "MUTE") == 0)
         {
             g_alarm_muted = (value != 0U) ? 1U : 0U;
+            report_config = 0U;
+            report_data = 1U;
         }
         else
         {
@@ -334,7 +342,14 @@ static void BLE_ProcessLine(char *line)
             return;
         }
 
-        BLE_ReportConfig();
+        if (report_config)
+        {
+            BLE_ReportConfig();
+        }
+        if (report_data)
+        {
+            BLE_ReportData();
+        }
         BLE_SendString("$ACK,SET,OK\r\n");
         return;
     }
@@ -342,38 +357,84 @@ static void BLE_ProcessLine(char *line)
     BLE_SendString("$ACK,UNK,ERR,CMD\r\n");
 }
 
+void BLE_RxPush(uint8_t c)
+{
+    uint8_t next;
+
+    next = (uint8_t)((g_ble_rx_head + 1U) % BLE_RX_FIFO_SIZE);
+    if (next == g_ble_rx_tail)
+    {
+        g_ble_rx_overflow = 1U;
+        return;
+    }
+
+    g_ble_rx_fifo[g_ble_rx_head] = c;
+    g_ble_rx_head = next;
+}
+
+static uint8_t BLE_RxPop(uint8_t *c)
+{
+    if (g_ble_rx_tail == g_ble_rx_head)
+    {
+        return 0U;
+    }
+
+    *c = g_ble_rx_fifo[g_ble_rx_tail];
+    g_ble_rx_tail = (uint8_t)((g_ble_rx_tail + 1U) % BLE_RX_FIFO_SIZE);
+    return 1U;
+}
+
+static void BLE_HandleRxByte(uint8_t c)
+{
+    if (c == '\r')
+    {
+        return;
+    }
+    if (c == '\n')
+    {
+        g_ble_rx_line[g_ble_rx_idx] = '\0';
+        if (g_ble_rx_idx > 0U)
+        {
+            BLE_ProcessLine(g_ble_rx_line);
+        }
+        g_ble_rx_idx = 0U;
+        return;
+    }
+
+    if (c >= 0x20U && c <= 0x7EU)
+    {
+        if (g_ble_rx_idx < (BLE_RX_LINE_MAX - 1U))
+        {
+            g_ble_rx_line[g_ble_rx_idx++] = (char)c;
+        }
+        else
+        {
+            g_ble_rx_idx = 0U;
+            BLE_SendString("$ACK,RX,ERR,LEN\r\n");
+        }
+    }
+}
+
 void BLE_PollRx(void)
 {
     uint8_t c;
 
+    /* Fallback drain in case RXNE was set before the interrupt was enabled. */
     while (USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == SET)
     {
         c = (uint8_t)USART_ReceiveData(USART2);
-        if (c == '\r')
-        {
-            continue;
-        }
-        if (c == '\n')
-        {
-            g_ble_rx_line[g_ble_rx_idx] = '\0';
-            if (g_ble_rx_idx > 0U)
-            {
-                BLE_ProcessLine(g_ble_rx_line);
-            }
-            g_ble_rx_idx = 0U;
-            continue;
-        }
+        BLE_RxPush(c);
+    }
 
-        if (c >= 0x20U && c <= 0x7EU)
-        {
-            if (g_ble_rx_idx < (BLE_RX_LINE_MAX - 1U))
-            {
-                g_ble_rx_line[g_ble_rx_idx++] = (char)c;
-            }
-            else
-            {
-                g_ble_rx_idx = 0U;
-            }
-        }
+    if (g_ble_rx_overflow)
+    {
+        g_ble_rx_overflow = 0U;
+        g_ble_rx_idx = 0U;
+        BLE_SendString("$ACK,RX,ERR,OVF\r\n");
+    }
+
+    while (BLE_RxPop(&c))
+    {
+        BLE_HandleRxByte(c);
     }
 }

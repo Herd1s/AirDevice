@@ -2,7 +2,7 @@
 .\objects\app_ui.o: User\app.h
 .\objects\app_ui.o: .\Start\stm32f10x.h
 .\objects\app_ui.o: .\Start\core_cm3.h
-.\objects\app_ui.o: E:\Software\Keil\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\app_ui.o: E:\Software\Keil\MDK5_38a\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\app_ui.o: .\Start\system_stm32f10x.h
 .\objects\app_ui.o: .\User\stm32f10x_conf.h
 .\objects\app_ui.o: .\Library\stm32f10x_adc.h
@@ -31,4 +31,4 @@
 .\objects\app_ui.o: .\Library\misc.h
 .\objects\app_ui.o: User\app_modules.h
 .\objects\app_ui.o: .\BSP\OLED.h
-.\objects\app_ui.o: E:\Software\Keil\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\app_ui.o: E:\Software\Keil\MDK5_38a\ARM\ARMCC\Bin\..\include\stdio.h

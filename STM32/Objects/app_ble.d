@@ -2,7 +2,7 @@
 .\objects\app_ble.o: User\app.h
 .\objects\app_ble.o: .\Start\stm32f10x.h
 .\objects\app_ble.o: .\Start\core_cm3.h
-.\objects\app_ble.o: E:\Software\Keil\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\app_ble.o: E:\Software\Keil\MDK5_38a\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\app_ble.o: .\Start\system_stm32f10x.h
 .\objects\app_ble.o: .\User\stm32f10x_conf.h
 .\objects\app_ble.o: .\Library\stm32f10x_adc.h
@@ -30,7 +30,7 @@
 .\objects\app_ble.o: .\Library\stm32f10x_wwdg.h
 .\objects\app_ble.o: .\Library\misc.h
 .\objects\app_ble.o: User\app_modules.h
-.\objects\app_ble.o: E:\Software\Keil\MDK\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\app_ble.o: E:\Software\Keil\MDK\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\app_ble.o: E:\Software\Keil\MDK\ARM\ARMCC\Bin\..\include\string.h
-.\objects\app_ble.o: E:\Software\Keil\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\app_ble.o: E:\Software\Keil\MDK5_38a\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\app_ble.o: E:\Software\Keil\MDK5_38a\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\app_ble.o: E:\Software\Keil\MDK5_38a\ARM\ARMCC\Bin\..\include\string.h
+.\objects\app_ble.o: E:\Software\Keil\MDK5_38a\ARM\ARMCC\Bin\..\include\stdlib.h

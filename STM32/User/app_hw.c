@@ -125,7 +125,7 @@ void USART1_Config(void)
     USART_InitTypeDef usart;
 
     USART_StructInit(&usart);
-    usart.USART_BaudRate = 115200;
+    usart.USART_BaudRate = SYN6288_BAUDRATE;
     usart.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
     USART_Init(USART1, &usart);
     USART_Cmd(USART1, ENABLE);
@@ -134,10 +134,19 @@ void USART1_Config(void)
 void USART2_BLE_Config(void)
 {
     USART_InitTypeDef usart;
+    NVIC_InitTypeDef nvic;
 
     USART_StructInit(&usart);
     usart.USART_BaudRate = BLE_BAUDRATE;
     usart.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
     USART_Init(USART2, &usart);
+
+    nvic.NVIC_IRQChannel = USART2_IRQn;
+    nvic.NVIC_IRQChannelPreemptionPriority = 1U;
+    nvic.NVIC_IRQChannelSubPriority = 1U;
+    nvic.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&nvic);
+
+    USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
     USART_Cmd(USART2, ENABLE);
 }

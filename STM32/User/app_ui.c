@@ -235,6 +235,7 @@ void HandleKeyEvent(uint8_t evt)
         if (g_setting_mode)
         {
             App_SaveParams();
+            Voice_NotifyParamsSaved();
             g_setting_mode = 0;
         }
         else if (g_alarm_active)

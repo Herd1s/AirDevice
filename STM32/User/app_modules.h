@@ -37,6 +37,12 @@ void BLE_SendString(const char *s);
 void BLE_ReportData(void);
 void BLE_ReportConfig(void);
 void BLE_CheckAlarmEdge(void);
+void BLE_RxPush(uint8_t c);
 void BLE_PollRx(void);
+
+void Voice_Init(void);
+void Voice_Task10ms(void);
+void Voice_SpeakBoot(void);
+void Voice_NotifyParamsSaved(void);
 
 #endif

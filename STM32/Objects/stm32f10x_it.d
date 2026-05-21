@@ -2,7 +2,7 @@
 .\objects\stm32f10x_it.o: User\stm32f10x_it.h
 .\objects\stm32f10x_it.o: .\Start\stm32f10x.h
 .\objects\stm32f10x_it.o: .\Start\core_cm3.h
-.\objects\stm32f10x_it.o: E:\Software\Keil\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\stm32f10x_it.o: E:\Software\Keil\MDK5_38a\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\stm32f10x_it.o: .\Start\system_stm32f10x.h
 .\objects\stm32f10x_it.o: .\User\stm32f10x_conf.h
 .\objects\stm32f10x_it.o: .\Library\stm32f10x_adc.h
@@ -29,3 +29,5 @@
 .\objects\stm32f10x_it.o: .\Library\stm32f10x_usart.h
 .\objects\stm32f10x_it.o: .\Library\stm32f10x_wwdg.h
 .\objects\stm32f10x_it.o: .\Library\misc.h
+.\objects\stm32f10x_it.o: User\app.h
+.\objects\stm32f10x_it.o: User\app_modules.h
